@@ -1,26 +1,21 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Firebase config — reads from environment variables.
-// Set these in your Vercel project settings (or .env.local for dev).
-// See the README for setup instructions.
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "",
+  apiKey: "AIzaSyC0nghM9NX7BZ5skgp8qDgNt3poBM9ceT0",
+  authDomain: "amahlao.firebaseapp.com",
+  projectId: "amahlao",
+  storageBucket: "amahlao.firebasestorage.app",
+  messagingSenderId: "587031689924",
+  appId: "1:587031689924:web:ed5eb1a2d88189b06ce791",
+  measurementId: "G-HJ5DYWRT55"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-
-// Check if Firebase is properly configured
-export function isFirebaseConfigured(): boolean {
-  return Boolean(
-    firebaseConfig.apiKey &&
-      firebaseConfig.projectId &&
-      firebaseConfig.appId
-  );
-}
+const analytics = getAnalytics(app);
