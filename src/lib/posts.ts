@@ -50,7 +50,7 @@ const POSTS_COLLECTION = "posts";
 export async function createPost(
   post: Omit<Post, "id" | "likes" | "likedBy" | "comments">
 ): Promise<string | null> {
-  if (!isFirebaseConfigured()) {
+  if (!isFirebaseConfigured() || !db) {
     console.warn("Firebase not configured — post not saved to cloud.");
     return null;
   }
@@ -77,7 +77,7 @@ export async function toggleLike(
   postId: string,
   currentLikedBy: string[]
 ): Promise<void> {
-  if (!isFirebaseConfigured()) return;
+  if (!isFirebaseConfigured() || !db) return;
 
   try {
     const postRef = doc(db, POSTS_COLLECTION, postId);
@@ -102,7 +102,7 @@ export async function toggleLike(
 // ─── Delete Post ─────────────────────────────────────────────────────────────
 
 export async function deletePost(postId: string): Promise<void> {
-  if (!isFirebaseConfigured()) return;
+  if (!isFirebaseConfigured() || !db) return;
 
   try {
     await deleteDoc(doc(db, POSTS_COLLECTION, postId));
@@ -116,7 +116,7 @@ export async function deletePost(postId: string): Promise<void> {
 export function subscribeToPosts(
   callback: (posts: Post[]) => void
 ): () => void {
-  if (!isFirebaseConfigured()) {
+  if (!isFirebaseConfigured() || !db) {
     callback([]);
     return () => {};
   }

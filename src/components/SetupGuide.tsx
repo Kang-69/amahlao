@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { X, ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
+import { isFirebaseConfigured } from "../lib/firebase";
+import { ChevronDown, ChevronUp, X, Copy, Check } from "lucide-react";
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
@@ -23,7 +24,7 @@ export function SetupBanner() {
   const [dismissed, setDismissed] = useState(false);
   const [expanded, setExpanded] = useState(true);
 
-  if (dismissed) return null;
+  if (dismissed || isFirebaseConfigured()) return null;
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 mt-4">
@@ -36,10 +37,10 @@ export function SetupBanner() {
             </div>
             <div>
               <h3 className="text-sm font-bold text-amber-300">
-                Firebase Not Configured — Posts are local only
+                Posts only save on your device — set up Firebase to sync everywhere
               </h3>
               <p className="text-xs text-amber-400/60">
-                Follow the setup guide below to enable cross-device sync
+                It&apos;s free and takes 5 minutes. Follow the guide below.
               </p>
             </div>
           </div>
@@ -65,122 +66,124 @@ export function SetupBanner() {
             {/* Step 1 */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400 shrink-0">
                   1
                 </span>
-                <h4 className="text-sm font-bold text-amber-200">Create a Firebase Project</h4>
+                <h4 className="text-sm font-bold text-amber-200">Create a Firebase Project (free)</h4>
               </div>
-              <div className="ml-8 text-xs text-amber-400/70 space-y-1">
+              <div className="ml-8 text-xs text-amber-400/70 space-y-1.5">
                 <p>
-                  Go to{" "}
+                  Open a new tab → go to{" "}
                   <a
                     href="https://console.firebase.google.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline text-amber-300 hover:text-amber-200"
+                    className="underline text-amber-300 hover:text-amber-200 font-semibold"
                   >
                     console.firebase.google.com
                   </a>{" "}
-                  and sign in with your Google account.
+                  → sign in with Google
                 </p>
-                <p>Click <strong className="text-amber-300">"Add Project"</strong> → Name it <strong className="text-amber-300">"Amahlao-Hub"</strong> → Click <strong className="text-amber-300">"Continue"</strong> → Disable Google Analytics (not needed) → Click <strong className="text-amber-300">"Create Project"</strong></p>
+                <p>Click <strong className="text-amber-300">&quot;Add Project&quot;</strong> → type <strong className="text-amber-300">&quot;Amahlao-Hub&quot;</strong> → <strong className="text-amber-300">&quot;Continue&quot;</strong></p>
+                <p>Turn <strong className="text-amber-300">OFF</strong> &quot;Enable Google Analytics&quot; → click <strong className="text-amber-300">&quot;Create Project&quot;</strong> → wait 30 sec → <strong className="text-amber-300">&quot;Continue&quot;</strong></p>
               </div>
             </div>
 
             {/* Step 2 */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400 shrink-0">
                   2
                 </span>
-                <h4 className="text-sm font-bold text-amber-200">Enable Firestore Database</h4>
+                <h4 className="text-sm font-bold text-amber-200">Enable the Database</h4>
               </div>
-              <div className="ml-8 text-xs text-amber-400/70 space-y-1">
-                <p>In your Firebase project, click <strong className="text-amber-300">"Build"</strong> → <strong className="text-amber-300">"Firestore Database"</strong> in the left sidebar.</p>
-                <p>Click <strong className="text-amber-300">"Create Database"</strong> → Choose <strong className="text-amber-300">"Start in Test Mode"</strong> → Pick any location → Click <strong className="text-amber-300">"Done"</strong></p>
+              <div className="ml-8 text-xs text-amber-400/70 space-y-1.5">
+                <p>On the left sidebar → click <strong className="text-amber-300">&quot;Build&quot;</strong> → <strong className="text-amber-300">&quot;Firestore Database&quot;</strong></p>
+                <p>Click <strong className="text-amber-300">&quot;Create Database&quot;</strong> → select <strong className="text-amber-300">&quot;Start in Test Mode&quot;</strong> → <strong className="text-amber-300">&quot;Next&quot;</strong></p>
+                <p>Pick any location → <strong className="text-amber-300">&quot;Done&quot;</strong> → wait for it to load (you&apos;ll see an empty database)</p>
               </div>
             </div>
 
             {/* Step 3 */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400 shrink-0">
                   3
                 </span>
-                <h4 className="text-sm font-bold text-amber-200">Add a Web App & Copy Config</h4>
+                <h4 className="text-sm font-bold text-amber-200">Get Your Config Values</h4>
               </div>
-              <div className="ml-8 text-xs text-amber-400/70 space-y-1">
-                <p>Click the <strong className="text-amber-300">gear icon ⚙️</strong> → <strong className="text-amber-300">"Project Settings"</strong></p>
-                <p>Scroll down to <strong className="text-amber-300">"Your apps"</strong> → Click the <strong className="text-amber-300">&lt;/&gt;</strong> (Web) icon</p>
-                <p>Give it a nickname like <strong className="text-amber-300">"Amahlao-Hub Web"</strong> → Click <strong className="text-amber-300">"Register App"</strong></p>
-                <p>You&apos;ll see a <code className="bg-amber-500/10 px-1 rounded text-amber-300">firebaseConfig</code> object. Copy each value!</p>
+              <div className="ml-8 text-xs text-amber-400/70 space-y-1.5">
+                <p>Click the <strong className="text-amber-300">⚙️ gear icon</strong> (top left) → <strong className="text-amber-300">&quot;Project Settings&quot;</strong></p>
+                <p>Scroll down to <strong className="text-amber-300">&quot;Your apps&quot;</strong> → click the <strong className="text-amber-300">&lt;/&gt;</strong> icon (the web one)</p>
+                <p>Type <strong className="text-amber-300">&quot;web&quot;</strong> as nickname → <strong className="text-amber-300">uncheck</strong> Firebase Hosting → <strong className="text-amber-300">&quot;Register App&quot;</strong></p>
+                <p>You&apos;ll see a code block like this — keep it open, you&apos;ll need it next:</p>
+              </div>
+              <div className="mt-2 ml-8 rounded-xl bg-black/30 border border-amber-500/15 p-3 font-mono text-[11px] text-amber-300 overflow-x-auto">
+                <pre>{`const firebaseConfig = {
+  apiKey: "AIzaSyB...",
+  authDomain: "amahlao-hub.firebaseapp.com",
+  projectId: "amahlao-hub",
+  storageBucket: "amahlao-hub.firebasestorage.app",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123"
+};`}</pre>
               </div>
             </div>
 
             {/* Step 4 */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400 shrink-0">
                   4
                 </span>
-                <h4 className="text-sm font-bold text-amber-200">Add Environment Variables in Vercel</h4>
+                <h4 className="text-sm font-bold text-amber-200">Paste Values Into Your Code</h4>
               </div>
-              <div className="ml-8 text-xs text-amber-400/70 space-y-1">
-                <p>Go to your Vercel project → <strong className="text-amber-300">Settings</strong> → <strong className="text-amber-300">Environment Variables</strong></p>
-                <p>Add each of these 6 variables with the values from your Firebase config:</p>
+              <div className="ml-8 text-xs text-amber-400/70 space-y-1.5">
+                <p>Go to your GitHub repo <strong className="text-amber-300">Kang-69/Amahlao-Hub</strong></p>
+                <p>Navigate to <strong className="text-amber-300">src/lib/firebase.ts</strong> → click the <strong className="text-amber-300">✏️ pencil icon</strong> to edit</p>
+                <p>Find the <code className="bg-amber-500/10 px-1 rounded text-amber-300">firebaseConfig</code> object and paste your values between the quotes:</p>
               </div>
-              <div className="mt-3 ml-8 rounded-xl bg-amber-500/5 border border-amber-500/15 p-3 space-y-2 font-mono text-[11px]">
-                <div className="flex items-center justify-between gap-2">
-                  <code className="text-amber-300">VITE_FIREBASE_API_KEY</code>
-                  <CopyButton text="VITE_FIREBASE_API_KEY" />
+              <div className="mt-2 ml-8 relative">
+                <div className="absolute top-2 right-2 z-10">
+                  <CopyButton
+                    text={`const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID",
+};`}
+                  />
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                  <code className="text-amber-300">VITE_FIREBASE_AUTH_DOMAIN</code>
-                  <CopyButton text="VITE_FIREBASE_AUTH_DOMAIN" />
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <code className="text-amber-300">VITE_FIREBASE_PROJECT_ID</code>
-                  <CopyButton text="VITE_FIREBASE_PROJECT_ID" />
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <code className="text-amber-300">VITE_FIREBASE_STORAGE_BUCKET</code>
-                  <CopyButton text="VITE_FIREBASE_STORAGE_BUCKET" />
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <code className="text-amber-300">VITE_FIREBASE_MESSAGING_SENDER_ID</code>
-                  <CopyButton text="VITE_FIREBASE_MESSAGING_SENDER_ID" />
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <code className="text-amber-300">VITE_FIREBASE_APP_ID</code>
-                  <CopyButton text="VITE_FIREBASE_APP_ID" />
-                </div>
+                <pre className="rounded-xl bg-black/30 border border-amber-500/15 p-3 pr-24 text-[11px] text-amber-300 overflow-x-auto">
+{`const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID",
+};`}
+                </pre>
+              </div>
+              <div className="ml-8 mt-2 text-xs text-amber-400/70 space-y-1.5">
+                <p>Click <strong className="text-amber-300">&quot;Commit changes&quot;</strong> → <strong className="text-amber-300">&quot;Commit changes&quot;</strong> again</p>
+                <p>Vercel will auto-deploy in ~1 minute! 🎉</p>
               </div>
             </div>
 
             {/* Step 5 */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400 shrink-0">
                   5
                 </span>
-                <h4 className="text-sm font-bold text-amber-200">Redeploy on Vercel</h4>
+                <h4 className="text-sm font-bold text-emerald-200">Make Database Rules Permanent</h4>
               </div>
-              <div className="ml-8 text-xs text-amber-400/70 space-y-1">
-                <p>Push a commit to your GitHub repo, or go to Vercel → <strong className="text-amber-300">Deployments</strong> → click <strong className="text-amber-300">"..."</strong> on the latest → <strong className="text-amber-300">"Redeploy"</strong></p>
-                <p>After redeploying, this warning banner will disappear and posts will sync across all devices! 🎉</p>
-              </div>
-            </div>
-
-            {/* Step 6 (Optional but important) */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">
-                  6
-                </span>
-                <h4 className="text-sm font-bold text-emerald-200">Update Firestore Rules (Important!)</h4>
-              </div>
-              <div className="ml-8 text-xs text-amber-400/70 space-y-1">
-                <p>Test mode rules expire after 30 days. In Firebase Console → <strong className="text-amber-300">Firestore Database</strong> → <strong className="text-amber-300">Rules</strong>, replace with:</p>
+              <div className="ml-8 text-xs text-amber-400/70 space-y-1.5">
+                <p>Back in Firebase → <strong className="text-amber-300">&quot;Firestore Database&quot;</strong> → <strong className="text-amber-300">&quot;Rules&quot;</strong> tab</p>
+                <p>Replace everything with this, then click <strong className="text-amber-300">&quot;Publish&quot;</strong>:</p>
               </div>
               <div className="mt-2 ml-8 relative">
                 <div className="absolute top-2 right-2 z-10">
@@ -206,7 +209,16 @@ service cloud.firestore {
 }`}
                 </pre>
               </div>
-              <p className="ml-8 mt-2 text-[11px] text-amber-400/50">Click <strong>Publish</strong> to save the rules.</p>
+            </div>
+
+            {/* Summary */}
+            <div className="ml-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-4">
+              <p className="text-xs text-emerald-300 font-semibold mb-1">✅ That&apos;s it! Here&apos;s what you just did:</p>
+              <ul className="text-[11px] text-emerald-400/70 space-y-1">
+                <li>• Created a free Google cloud database for your posts</li>
+                <li>• Connected it to your website by pasting the config</li>
+                <li>• Now posts will appear on ALL devices in real-time!</li>
+              </ul>
             </div>
           </div>
         )}
