@@ -57,13 +57,18 @@ import { getFirestore, type Firestore } from "firebase/firestore";
 // ═══════════════════════════════════════════════════════════════════════════
 
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyC0nghM9NX7BZ5skgp8qDgNt3poBM9ceT0",
+  authDomain: "amahlao.firebaseapp.com",
+  projectId: "amahlao",
+  storageBucket: "amahlao.firebasestorage.app",
+  messagingSenderId: "587031689924",
+  appId: "1:587031689924:web:ed5eb1a2d88189b06ce791",
+  measurementId: "G-HJ5DYWRT55"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // ═══════════════════════════════════════════════════════════════════════════
 // 🛑 DON'T EDIT BELOW THIS LINE
